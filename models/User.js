@@ -15,7 +15,7 @@ const userSchema = new Schema(
       unique: true,
       match: [
         /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/,
-        "Must match an email address!",
+        "You must match an email address!",
       ],
     },
     thoughts: [
@@ -32,8 +32,7 @@ const userSchema = new Schema(
     ],
   },
   {
-    // Mongoose supports two Schema options to transform Objects after querying MongoDb: toJSON and toObject.
-    // Here we are indicating that we want virtuals to be included with our response, overriding the default behavior
+     // Here we are indicating that we want virtuals to be included with our response, overriding the default behavior
     toJSON: {
       virtuals: true,
     },
@@ -41,6 +40,7 @@ const userSchema = new Schema(
   }
 );
 
+//retrieves the length of the user's friends array field on query
 userSchema.virtual("friendCount").get(function () {
   return this.friends.length;
 });
