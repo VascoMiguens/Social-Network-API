@@ -1,5 +1,4 @@
 const { Schema, Types } = require("mongoose");
-const { format_date } = require("../utils/helpers");
 
 // Schema only - refered in the thought model
 const reactionSchema = new Schema(
@@ -24,7 +23,7 @@ const reactionSchema = new Schema(
     },
   },
   //This allows the JSON representation of the object to include the getters, but not the id.
-{
+  {
     toJSON: {
       getters: true,
     },

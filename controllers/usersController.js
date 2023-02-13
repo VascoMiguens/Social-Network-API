@@ -53,7 +53,8 @@ const userController = {
         if (!dbUserData) {
           res.status(404).json({ message: "No user with that Id" });
         }
-        await Thought.deleteMany({ user: dbUserData._id });
+        // Delete only thoughts related to the user being deleted
+        await Thought.deleteMany({ user: req.params.userId });
         res.json(dbUserData);
       })
 
