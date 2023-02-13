@@ -1,5 +1,7 @@
-const { Schema, model } = require("mongoose");
-// Schema to create Thoughts model
+const { Schema, Types } = require("mongoose");
+const { format_date } = require("../utils/helpers");
+
+// Schema only - refered in the thought model
 const reactionSchema = new Schema(
   {
     reactionId: {
@@ -17,11 +19,12 @@ const reactionSchema = new Schema(
     },
     createdAt: {
       type: Date,
-      default: Date.now,
+      default: Date.now(),
       get: (createdAt) => createdAt.toLocaleString(),
     },
   },
-  {
+  //This allows the JSON representation of the object to include the getters, but not the id.
+{
     toJSON: {
       getters: true,
     },

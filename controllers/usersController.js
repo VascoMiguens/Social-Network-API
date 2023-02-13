@@ -1,3 +1,4 @@
+const { Schema } = require("mongoose");
 const { User, Thought } = require("../models");
 
 const userController = {
@@ -78,14 +79,17 @@ const userController = {
         res.status(500).json(err);
       });
   },
-  // get all friends of a user
-  getUserFriends(req, res) {
-    User.findOne({ _id: req.params.userId })
-      .populate("friends")
+  // add a user's friend
+  addUserFriend(req, res) {
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $addToSet: { friends: req.params.friendId } },
+      { runValidators: true, new: true }
+    )
       .then((dbUser) => {
         !dbUser
           ? res.status(404).json({ message: "No user with that Id" })
-          : res.json(dbUser.friends);
+          : res.json(dbUser);
       })
       .catch((err) => {
         console.log(err);
@@ -96,7 +100,7 @@ const userController = {
   deleteUserFriend(req, res) {
     User.findOneAndUpdate(
       { _id: req.params.userId },
-      { $pull: { friends: { _id: req.params.friendId } } },
+      { $pull: { friends: req.params.friendId } },
       { new: true }
     )
       .then((dbUser) => {

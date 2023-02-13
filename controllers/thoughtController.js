@@ -14,7 +14,7 @@ const thoughtController = {
   },
   // get single thought by Id
   getSingleThought(req, res) {
-    Thought.findOne({ _id: req.params.thoguhtId })
+    Thought.findOne({ _id: req.params.thoughtId })
       .then((dbThought) =>
         !dbThought
           ? res.status(404).json({ message: "No thought with that Id" })
@@ -95,18 +95,19 @@ const thoughtController = {
       { $addToSet: { reaction: req.body } },
       { runValidators: true, new: true }
     )
-      .then((dbThought) =>
-        !dbThought
-          ? res.status(404).json({ message: "No thought with this id!" })
-          : res.json(dbThought)
-      )
+      .then((thought) => {
+        if (!thought) {
+          return res.status(404).json({ message: "No thought with this id!" });
+        }
+        return res.json(thought);
+      })
       .catch((err) => res.status(500).json(err));
   },
   // Remove video response
   removeReaction(req, res) {
     Thought.findOneAndUpdate(
-      { _id: req.params.thoguhtId },
-      { $pull: { reactions: { userId: req.params.userId } } },
+      { _id: req.params.thoughtId },
+      { $pull: { reaction: { userId: req.params.userId } } },
       { runValidators: true, new: true }
     )
       .then((thought) =>

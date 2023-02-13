@@ -22,6 +22,7 @@ const thoughtSchema = new Schema(
     },
     reaction: [reactionSchema],
   },
+  //This allows the JSON representation of the object to include the getters, but not the id.
   {
     toJSON: {
       getters: true,
