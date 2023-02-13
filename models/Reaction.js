@@ -1,6 +1,4 @@
 const { Schema, model } = require("mongoose");
-const dateformat = require("../utils/helpers");
-
 // Schema to create Thoughts model
 const reactionSchema = new Schema(
   {
@@ -20,7 +18,7 @@ const reactionSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
-      get: (timestamp) => dateformat(timestamp),
+      get: (createdAt) => createdAt.toLocaleString(),
     },
   },
   {

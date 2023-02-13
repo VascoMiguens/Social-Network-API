@@ -11,12 +11,9 @@ const userSchema = new Schema(
     },
     email: {
       type: String,
-      require: true,
+      required: true,
       unique: true,
-      match: [
-        /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/,
-        "You must match an email address!",
-      ],
+      match: [/.+\@.+\..+/, "You must match an email address!"],
     },
     thoughts: [
       {
